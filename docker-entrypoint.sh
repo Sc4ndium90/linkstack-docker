@@ -3,6 +3,20 @@
 # Exit on non defined variables and on non zero exit codes
 set -eu
 
+# If the index.php is not found, initiate the folder
+TARGET="/htdocs"
+SOURCE="/usr/src/linkstack"
+
+if [ ! "$TARGET/index.php" ]; then
+  echo "Populating $TARGET.."
+  cp -Rp "$SOURCE/." "$TARGET/"
+fi
+
+echo "Applying permissions.."
+chown -R apache:apache "$TARGET"
+chown -R apache:apache /run/apache2
+chown apache:tty /dev/stdout /dev/stderr
+
 # + ---------- + #
 # | -- VARS -- | #
 # + ---------- + #
@@ -59,4 +73,4 @@ echo '| Running Apache                                                     |'
 echo '+ ------------------------------------------------------------------ +'
 echo
 
-httpd -D FOREGROUND
+exec su-exec apache:apache "$@"
