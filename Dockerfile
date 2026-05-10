@@ -1,6 +1,6 @@
 FROM alpine:3.23.2
 
-ARG LINKSTACK_VERSION=4.8.6
+ARG LINKSTACK_VERSION=v4.8.6
 
 LABEL modified_by="Sc4ndium90"
 LABEL maintainer="JulianPrieber"
@@ -42,7 +42,7 @@ RUN apk --no-cache --update \
     su-exec \
     tzdata 
 
-RUN wget "https://github.com/LinkStackOrg/LinkStack/releases/download/v${LINKSTACK_VERSION}/linkstack.zip" -O /tmp/linkstack.zip && \
+RUN wget "https://github.com/LinkStackOrg/LinkStack/releases/download/${LINKSTACK_VERSION}/linkstack.zip" -O /tmp/linkstack.zip && \
         mkdir -p /usr/src/linkstack /tmp/linkstack /htdocs && unzip /tmp/linkstack.zip -d /tmp/linkstack && cp -Rp /tmp/linkstack/linkstack/. /usr/src/linkstack && \
         rm -rf /tmp/linkstack.zip /tmp/linkstack
 
