@@ -1,11 +1,7 @@
 name: Build and publish Linkstack image on Docker Hub
 
 on:
-  schedule:
-    - cron: '0 0 * * 1'
   workflow_dispatch: 
-
-
 
 jobs:
   build:
