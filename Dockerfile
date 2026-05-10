@@ -1,4 +1,8 @@
 FROM alpine:3.23.2
+
+ARG LINKSTACK_VERSION=4.8.6
+
+LABEL modified_by="Sc4ndium90"
 LABEL maintainer="JulianPrieber"
 LABEL description="LinkStack Docker"
 
@@ -36,10 +40,12 @@ RUN apk --no-cache --update \
     php83-xmlwriter \
     php83-redis \
     su-exec \
-    tzdata \
-    && mkdir /htdocs
+    tzdata 
 
-COPY linkstack /usr/src/linkstack
+RUN wget "https://github.com/LinkStackOrg/LinkStack/releases/download/v${LINKSTACK_VERSION}/linkstack.zip" -O /tmp/linkstack.zip && \
+        mkdir -p /usr/src/linkstack /tmp/linkstack /htdocs && unzip /tmp/linkstack.zip -d /tmp/linkstack && cp -Rp /tmp/linkstack/linkstack/. /usr/src/linkstack && \
+        rm -rf /tmp/linkstack.zip /tmp/linkstack
+
 COPY --chmod=0755 docker-entrypoint.sh /usr/local/bin
 COPY configs/apache2/httpd.conf /etc/apache2/httpd.conf
 COPY configs/apache2/ssl.conf /etc/apache2/conf.d/ssl.conf
