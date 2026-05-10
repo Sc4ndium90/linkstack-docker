@@ -7,7 +7,7 @@ set -eu
 TARGET="/htdocs"
 SOURCE="/usr/src/linkstack"
 
-if [ ! "$TARGET/index.php" ]; then
+if [ ! -f "$TARGET/index.php" ]; then
   echo "Populating $TARGET.."
   cp -Rp "$SOURCE/." "$TARGET/"
 fi
