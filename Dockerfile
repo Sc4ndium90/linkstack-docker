@@ -56,8 +56,5 @@ RUN chown apache:apache /etc/ssl/apache2/server.key
 
 RUN chmod -R 755 /etc/php83 && \
     chown -R apache:apache /etc/php83
-
-HEALTHCHECK CMD curl -f http://localhost -A "HealthCheck" || exit 1
-
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["httpd", "-d", "FOREGROUND"]
